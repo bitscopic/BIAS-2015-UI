@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## BIAS-2015-UI
+
+This web-based application provides a visualization tool for analyzing genomic variants and alongside their ACMG classifications.
+
+Users can upload a TSV to view, analyze, and modify variant classifications, scores, and rationales. After making edits, they can export the modified data for further processing, including re-analysis with [BIAS-2015](https://github.com/bitscopic/BIAS-2015).
+
+While the application was designed primarily to aid the analysis and iterative improvement of the [BIAS-2015](https://github.com/bitscopic/BIAS-2015) algorithm, the application accepts a TSV file as input, so using [BIAS-2015](https://github.com/bitscopic/BIAS-2015) to generate the input is not required.
+A sample TSV file is provided as a template which can be used to build and process your own data.
+
+This tool streamlines the process of reviewing and editing genomic variant classifications, enhancing the efficiency of genetic data analysis.
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+This project requires [Node.js](https://nodejs.org/en/download/) to be installed on your machine.
+
+### Running the Application
+
+1. Install the required Node modules:
+
+```bash
+npm install
+```
+
+2. Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. Naviage to **[http://localhost:3000](http://localhost:3000)** with your browser to use the application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Data Upload and Template Download:** Users can upload their own variant data in TSV format and download a sample template to ensure proper formatting.
 
-## Learn More
+- **Interactive Data Table:** The application displays variant data in a structured table, including columns for Gene, c., p., Consequence, Classification, and ACMG Rationale.
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Data Export:** After analysis and modification, users can download the updated dataset for further use.
