@@ -4,6 +4,7 @@ import * as React from "react";
 import {
   type ColumnDef,
   type ColumnFiltersState,
+  PaginationState,
   type SortingState,
   type VisibilityState,
   flexRender,
@@ -55,7 +56,10 @@ export function VariantTable({ variants, onVariantUpdate }: VariantTableProps) {
   );
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
+  const [pagination, setPagination] = React.useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 25,
+  });
 
   const columns: ColumnDef<Variant>[] = [
     {
@@ -152,16 +156,16 @@ export function VariantTable({ variants, onVariantUpdate }: VariantTableProps) {
         return (
           <div className="w-32">
             <div
-              className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
+              className={`inline-flex items-center rounded-full px-1.5 py-0.5 text-xs font-medium ${
                 classification === "benign"
-                  ? "bg-green-100 text-green-800"
+                  ? "bg-green-700 text-white"
                   : classification === "likely benign"
-                  ? "bg-blue-100 text-blue-800"
+                  ? "bg-lime-500 text-white"
                   : classification === "uncertain significance"
-                  ? "bg-yellow-400 text-yellow-900"
+                  ? "bg-cyan-400 text-white"
                   : classification === "likely pathogenic"
-                  ? "bg-orange-100 text-orange-800"
-                  : "bg-red-100 text-red-800"
+                  ? "bg-orange-400 text-white"
+                  : "bg-red-600 text-white"
               }`}
             >
               {classification}
@@ -264,12 +268,12 @@ export function VariantTable({ variants, onVariantUpdate }: VariantTableProps) {
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
-    onRowSelectionChange: setRowSelection,
+    onPaginationChange: setPagination,
     state: {
       sorting,
       columnFilters,
       columnVisibility,
-      rowSelection,
+      pagination,
     },
   });
 
@@ -277,7 +281,7 @@ export function VariantTable({ variants, onVariantUpdate }: VariantTableProps) {
     <div className="w-full">
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filter genes..."
+          placeholder="Search by Gene..."
           value={
             (table.getColumn("geneName")?.getFilterValue() as string) ?? ""
           }
@@ -365,8 +369,18 @@ export function VariantTable({ variants, onVariantUpdate }: VariantTableProps) {
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
+          {1 +
+            table.getState().pagination.pageIndex *
+              table.getState().pagination.pageSize}
+          -
+          {table.getRowModel().rows.length +
+            table.getState().pagination.pageIndex *
+              table.getState().pagination.pageSize}{" "}
+          of {table.getRowCount().toLocaleString()}
+        </div>
+        <div>
+          Page {table.getState().pagination.pageIndex + 1} of{" "}
+          {table.getPageCount().toLocaleString()}
         </div>
         <div className="space-x-2">
           <Button
@@ -390,4 +404,3 @@ export function VariantTable({ variants, onVariantUpdate }: VariantTableProps) {
     </div>
   );
 }
-
